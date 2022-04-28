@@ -1,6 +1,6 @@
 runtime: python
 env: flex
-entrypoint: bash -c 'python3 manage.py collectstatic --noinput && python3 manage.py migrate --noinput && gunicorn -b :$PORT dummypro.wsgi'
+entrypoint: bash -c 'python3 manage.py collectstatic --noinput && python3 manage.py migrate --noinput && gunicorn -b :$PORT dummyPro.wsgi'
 
 # beta_settings:
 #    cloud_sql_instances: orientami-assignment:us-central1:orientami-assignment-mysql

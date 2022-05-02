@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from boto3.session import Session
+import boto3
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -134,8 +137,72 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+DATE_FORMAT = "d/m/Y"
+
+DATE_INPUT_FORMATS = ["%d/%m/%Y"]
+
+DATETIME_FORMAT = 'd/m/Y h:i:s a'
+
+DATETIME_INPUT_FORMATS = ['%d/%m/%Y %I:%M:%S']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AWS_ACCESS_KEY_ID = 'AKIA6PHRGO57HOPVKUMP'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'myfuturelybucket-prod'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.eu-south-1.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+
+CLOUDWATCH_AWS_ID = AWS_ACCESS_KEY_ID
+CLOUDWATCH_AWS_KEY = AWS_SECRET_ACCESS_KEY
+AWS_DEFAULT_REGION = 'eu-south-1' # Be sure to update with your AWS region
+
+logger_boto3_session = Session(
+    aws_access_key_id = CLOUDWATCH_AWS_ID,
+    aws_secret_access_key = CLOUDWATCH_AWS_KEY,
+    region_name = AWS_DEFAULT_REGION,
+)
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "aws": {
+            "format": "%(asctime)s [%(levelname)-8s] %(message)s [%(pathname)s:%(lineno)d]",
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
+    },
+    "handlers": {
+        "watchtower": {
+            "level": "INFO",
+            "class": "watchtower.CloudWatchLogHandler",
+            # From step 2
+            "boto3_session": logger_boto3_session,
+            "log_group": "TestLoadLogs",
+            # Different stream for each environment
+            "stream_name": f"logs",
+            "formatter": "aws",
+        },
+        "console": {"level": "INFO", "class": "logging.StreamHandler", "formatter": "aws",},
+        
+    },
+    "loggers": {
+        # Use this logger to send data just to Cloudwatch
+        "watchtower": {"level": "INFO", "handlers": ["watchtower"], "propogate": False,},
+        #'root': {'handlers': ['console'], 'level': 'INFO',},
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}
+
+

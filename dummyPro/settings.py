@@ -48,11 +48,13 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'lib.custom_locale.CustomLocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'lib.custom_locale.LastVisitMiddleware',
 ]
 
 ROOT_URLCONF = 'dummyPro.urls'
@@ -110,12 +112,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 6,
+        }
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'lib.password_validators.NumberValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'lib.password_validators.UppercaseValidator',
+    },
+    {
+        'NAME': 'lib.password_validators.LowercaseValidator',
     },
 ]
 
@@ -140,6 +148,11 @@ LANGUAGES = (
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
 ]
+
+PHRASE_ENABLED = False
+PHRASE_PROJECT_ID = 'c19e3b26403ea3108ad103bf578007a5'
+PHRASE_PREFIX = '{{__'
+PHRASE_SUFFIX = '__}}'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

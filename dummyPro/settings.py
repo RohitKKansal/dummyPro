@@ -152,6 +152,14 @@ DATETIME_INPUT_FORMATS = ['%d/%m/%Y %I:%M:%S']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'no-reply@myfuturely.com'
+EMAIL_HOST_PASSWORD = 'Futurely@2021'
+EMAIL_USE_TLS = True
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+CSRF_FAILURE_VIEW = "website.views.csrf_failure"
+
 AWS_ACCESS_KEY_ID = 'AKIA6PHRGO57HOPVKUMP'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'myfuturelybucket-prod'

@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from boto3.session import Session
 import boto3
+from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -132,6 +133,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+LANGUAGES = (
+    ('en-us', _('English')),
+    ('it', _('Italiano')),
+)
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -158,7 +166,7 @@ EMAIL_HOST_USER = 'no-reply@myfuturely.com'
 EMAIL_HOST_PASSWORD = 'Futurely@2021'
 EMAIL_USE_TLS = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-CSRF_FAILURE_VIEW = "website.views.csrf_failure"
+
 
 AWS_ACCESS_KEY_ID = 'AKIA6PHRGO57HOPVKUMP'
 AWS_SECRET_ACCESS_KEY = '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'

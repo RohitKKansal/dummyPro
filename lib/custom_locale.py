@@ -28,13 +28,13 @@ class CustomLocaleMiddleware(MiddlewareMixin):
         lang = request.GET.get('lang', None)
         if not lang:
             lang = request.session.get('lang', None)
-        country = None
-        try:
-            resp = get_location_by_ip(get_client_ip(request))
-            if 'country' in resp:
-                country = resp['country']
-        except:
-            pass
+        country = "Italy"
+        # try:
+        #     resp = get_location_by_ip(get_client_ip(request))
+        #     if 'country' in resp:
+        #         country = resp['country']
+        # except:
+        #     pass
         urlconf = getattr(request, 'urlconf', settings.ROOT_URLCONF)
         i18n_patterns_used, prefixed_default_language = is_language_prefix_patterns_used(
             urlconf)

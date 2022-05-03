@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'lib.custom_locale.LastVisitMiddleware',
+    #'lib.custom_locale.LastVisitMiddleware',
 ]
 
 ROOT_URLCONF = 'dummyPro.urls'
